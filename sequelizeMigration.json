@@ -1,0 +1,9 @@
+[
+  "20201108022601-create-user-table.js",
+  "20201108022645-create-address-table.js",
+  "20201108150434-create-specialty.js",
+  "20201108153104-create-user_specialty.js",
+  "20201108160009-add-fields-to-the-user-table.js",
+  "20201108175517-add-field-role-to-the-user-table.js",
+  "20201115174241-create-appointment.js"
+]
