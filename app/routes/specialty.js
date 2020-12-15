@@ -6,13 +6,13 @@ const {validarJWT} = require('../middlewares/validar-jwt');
 const router = Router();
 
 
-router.get('/', getEspecialidades);
+router.get('/', validarJWT, getEspecialidades);
 
-router.post('/', crearEspecialidad);
+router.post('/new', validarJWT, crearEspecialidad);
 
-router.put('/:id', actualizarEspecialidad);
+router.put('/:id', validarJWT, actualizarEspecialidad);
 
-router.delete('/:id', eliminarEspecialidad);
+router.delete('/:id', validarJWT, eliminarEspecialidad);
 
 
 

@@ -24,6 +24,8 @@ app.use('/api/doctor', require('./routes/doctor'));
 app.use('/api/address', require('./routes/address'));
 app.use('/api/specialty', require('./routes/specialty'));
 app.use('/api/appointment', require('./routes/appointment'));
+app.use('/api/schedule', require('./routes/schedule'));
+app.use('/api/upload', require('./routes/upload'));
 
 
 

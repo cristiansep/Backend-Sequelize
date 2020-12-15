@@ -1,25 +1,22 @@
 const {Router}= require('express');
-const { getUsuarios} = require('../controllers/userController');
+const { getUsuarios, crearUsuario, getUsuarioById, actualizarUsuario, eliminarUsuario} = require('../controllers/userController');
+const {validarJWT, validarADMIN_ROLE} = require('../middlewares/validar-jwt');
 
 
 const router = Router();
 
 
-router.get('/', getUsuarios);
+router.get('/', validarJWT, getUsuarios);
+
+router.post('/new', validarJWT, crearUsuario);
 
 // router.get('/:id/domicilio', getUsuarioDireccion);
 
-// router.get('/:id/publicacion', getUsuarioPublicaciones);
+router.get('/:id',validarJWT, getUsuarioById);
 
-// router.get('/:id/bandas', getUsuarioBanda);
+router.put('/:id', validarJWT,actualizarUsuario);
 
-// router.get('/:id', getUsuarioById);
-
-// router.post('/', crearUsuario);
-
-// router.patch('/:id', actualizarUsuario);
-
-// router.delete('/:id', eliminarUsuario);
+router.delete('/:id',validarJWT,eliminarUsuario);
 
 
 

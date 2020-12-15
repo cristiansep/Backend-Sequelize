@@ -7,6 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasMany(models.Address, {as: 'domicilio', foreignKey: 'residenteId'});
       User.hasMany(models.Appointment, { foreignKey: 'idDoctor'});
+      User.hasMany(models.Schedule, { foreignKey: 'idDoctor'});
+      User.hasMany(models.DoctorSchedule, { foreignKey: 'idDoctor'});
       User.hasMany(models.Appointment, { foreignKey: 'idPaciente'});
       User.belongsToMany(models.Specialty, {through: 'doctor_especialty', foreignKey: 'idUser'});
     }

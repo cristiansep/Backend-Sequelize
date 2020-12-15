@@ -1,12 +1,15 @@
 const {Router}= require('express');
-const { crearDoctor } = require('../controllers/doctorController');
+const {validarJWT} = require('../middlewares/validar-jwt');
+const { crearDoctor, getMedicos, actualizarMedico, eliminarMedico } = require('../controllers/doctorController');
 
 
 
 const router = Router();
 
-
-router.post('/new', crearDoctor);
+router.get('/',validarJWT ,getMedicos);
+router.post('/new',validarJWT ,crearDoctor);
+router.put('/:id',validarJWT , actualizarMedico);
+router.delete('/:id',validarJWT , eliminarMedico);
 
 
 

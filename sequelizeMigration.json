@@ -5,5 +5,6 @@
   "20201108153104-create-user_specialty.js",
   "20201108160009-add-fields-to-the-user-table.js",
   "20201108175517-add-field-role-to-the-user-table.js",
-  "20201115174241-create-appointment.js"
+  "20201115174241-create-appointment.js",
+  "20201121125522-create-schedule.js"
 ]

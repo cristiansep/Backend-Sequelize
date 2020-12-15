@@ -18,7 +18,7 @@ const getEspecialidades = async (req, res) => {
         console.log(error)
         res.status(400).json({
             ok: false,
-            message: 'Error al cargar especialidades'
+            msg: 'Error al cargar especialidades'
         });
         
     }  
@@ -42,7 +42,7 @@ const getEspecialidades = async (req, res) => {
         console.log(error)
         res.status(400).json({
             ok: false,
-            message: 'Especialidad no existe'
+            msg: 'Especialidad no existe'
         });
     }
 
@@ -64,7 +64,7 @@ const crearEspecialidad = async (req, res) => {
 
         res.json({
             ok: true,
-            message: 'Especilidad guardada correctamente',
+            msg: 'Especilidad guardada correctamente',
             especialidadDB
         });
         
@@ -74,7 +74,7 @@ const crearEspecialidad = async (req, res) => {
         res.status(500).json({
             ok: false,
             errors,
-            message: 'Hable con el administrador'
+            msg: 'Hable con el administrador'
         });
     }
 
@@ -95,7 +95,7 @@ const actualizarEspecialidad = async (req, res) => {
 
         res.json({
             ok: true,
-            message: 'Especialidad actualizada correctamente',
+            msg: 'Especialidad actualizada correctamente',
             especialidad
         });
         
@@ -103,7 +103,7 @@ const actualizarEspecialidad = async (req, res) => {
         console.log(error)
         res.status(500).json({
             ok: false,
-            message: 'Hable con el administrador'
+            msg: 'Hable con el administrador'
         });
     }
 
@@ -121,14 +121,14 @@ const eliminarEspecialidad = async (req,res) => {
 
         res.json({
             ok: true,
-            message: 'Especialidad eliminada correctamente',
+            msg: 'Especialidad eliminada correctamente',
         });
         
     } catch (error) {
         console.log(error)
         res.status(500).json({
             ok: false,
-            message: 'Error al tratar de eliminar usuario'
+            msg: 'Error al tratar de eliminar usuario'
         });
     }
 

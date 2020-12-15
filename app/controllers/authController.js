@@ -6,7 +6,7 @@ const {generarJWT} = require('../helpers/jwt');
 
 
 //Agregar usuario y direccion asociada
-const crearUsuario = async (req, res) => {
+const registrarUsuario = async (req, res) => {
 
     const {nombre, apellidoP, apellidoM, email, calle} = req.body;
     let {password} = req.body;
@@ -19,7 +19,7 @@ const crearUsuario = async (req, res) => {
         if(usuario) {
             return res.status(400).json({
                 ok: false,
-                message: 'Un usuario ya existe con ese correo electronico'
+                msg: 'Un usuario ya existe con ese correo electronico'
             });
         }
 
@@ -43,13 +43,14 @@ const crearUsuario = async (req, res) => {
         });
 
         //Generar token
-        const token = await generarJWT(usuarioGuardado.id, usuarioGuardado.nombre);
+        const token = await generarJWT(usuarioGuardado.id, usuarioGuardado.nombre, usuarioGuardado.role);
 
         res.json({
             ok: true,
-            message: 'Usuario guardado correctamente',
+            msg: 'Usuario guardado correctamente',
             uid: usuarioGuardado.id,
             name: usuarioGuardado.nombre,
+            rol: usuarioGuardado.role,
             token
         });
         
@@ -59,7 +60,7 @@ const crearUsuario = async (req, res) => {
         res.status(500).json({
             ok: false,
             errors,
-            message: 'Error al tratar de crear usuario'
+            msg: 'Error al tratar de crear usuario'
         });
     }
 
@@ -78,7 +79,7 @@ const loginUsuario = async(req,res) => {
         if(!usuario) {
             return res.status(400).json({
                 ok: false,
-                message: 'Email o contraseña no son correctos'
+                msg: 'Email o contraseña no son correctos'
             });
         }
 
@@ -93,12 +94,13 @@ const loginUsuario = async(req,res) => {
         }
 
         //Generar token
-        const token = await generarJWT(usuario.id, usuario.nombre);
+        const token = await generarJWT(usuario.id, usuario.nombre, usuario.role);
 
         res.json({
             ok: true,
             uid: usuario.id,
             name: usuario.nombre,
+            rol: usuario.role,
             token
         });
 
@@ -120,12 +122,17 @@ const loginUsuario = async(req,res) => {
 
 const revalidarToken = async(req,res) => {
 
-    const {uid, name} = req.uid;
+    const {uid, name, rol} = req;
 
-    const token = await generarJWT(uid, name);
+    console.log(uid)
+
+    const token = await generarJWT(uid, name, rol);
 
     res.json({
         ok:true,
+        uid,
+        name,
+        rol,
         token
     })
 
@@ -134,7 +141,7 @@ const revalidarToken = async(req,res) => {
 
 
 module.exports = {
-    crearUsuario,
+    registrarUsuario,
     loginUsuario,
     revalidarToken
 }
