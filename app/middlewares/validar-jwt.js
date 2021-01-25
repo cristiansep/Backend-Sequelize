@@ -41,49 +41,73 @@ const validarJWT = (req, res, next) => {
 
 
 
-const validarADMIN_ROLE = async(req, res, next) => {
+const validarADMIN_ROLE = async (req, res, next) => {
+  const uid = req.uid;
 
-    const uid = req.uid;
-   
-    try {
+  try {
+    const usuarioDB = await User.findByPk(uid);
 
-        const usuarioDB = await User.findByPk(uid);
-
-        if(!usuarioDB) {
-            return res.status(404).json({
-                ok:false,
-                msg: 'Usuario no existe'
-            });
-        }
-
-        if(usuarioDB.role !== 'ADMIN_ROLE') {
-            return res.status(403).json({
-                ok:false,
-                msg: 'No tiene privilegios para eso'
-            });
-        }
-
-
-        next();
-        
-        
-    } catch (error) {
-
-        return res.status(500).json({
-            ok: false,
-            message: 'Hable con el adminitrador'
-        });
-        
+    if (!usuarioDB) {
+      return res.status(404).json({
+        ok: false,
+        msg: "Usuario no existe",
+      });
     }
 
+    if (usuarioDB.role !== "ADMIN_ROLE") {
+      return res.status(403).json({
+        ok: false,
+        msg: "No tiene privilegios para esto",
+      });
+    }
 
     next();
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      message: "Hable con el adminitrador",
+    });
+  }
 
-}
+  next();
+};
+
+
+const validarDOCTOR_ROLE = async (req, res, next) => {
+    const uid = req.uid;
+  
+    try {
+      const usuarioDB = await User.findByPk(uid);
+  
+      if (!usuarioDB) {
+        return res.status(404).json({
+          ok: false,
+          msg: "Usuario no existe",
+        });
+      }
+  
+      if (usuarioDB.role !== "DOCTOR_ROLE") {
+        return res.status(403).json({
+          ok: false,
+          msg: "No tiene privilegios para esto",
+        });
+      }
+  
+      next();
+    } catch (error) {
+      return res.status(500).json({
+        ok: false,
+        message: "Hable con el adminitrador",
+      });
+    }
+  
+    next();
+  };
 
 
 
 module.exports = {
     validarJWT,
-    validarADMIN_ROLE
+    validarADMIN_ROLE,
+    validarDOCTOR_ROLE 
 }

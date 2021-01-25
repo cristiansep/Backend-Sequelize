@@ -1,5 +1,6 @@
 const {User} = require('../models/index');
 const {Specialty} = require('../models/index');
+const {Schedule} = require('../models/index');
 const bcrypt = require('bcrypt');
 
 
@@ -39,6 +40,38 @@ const getMedicos = async (req, res) => {
       });
     }
   };
+
+
+
+   //ver doctores asociados a su especialidad
+   const getSpecialtyDoctor = async (req, res) => {
+
+    const uid = req.params.id;
+
+    try {
+
+        const specialty = await Specialty.findByPk(uid);
+        const specialtyDoctor = await specialty.getUsers({
+            attributes: ['id','nombre', 'apellidoP'],
+            joinTableAttributes: [] 
+            
+        })
+      
+
+        res.json({
+            ok: true,
+            specialtyDoctor
+          });
+        
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            ok: false,
+            message: 'Usuario no existe'
+        });
+    }
+
+  }
 
 
 
@@ -106,7 +139,7 @@ const crearDoctor = async (req, res) => {
 
 
 
-const actualizarMedico = async (req, res) => {
+const actualizarMedico = (req, res) => {
 
     const {nombre, apellidoP, apellidoM, email, telefono,calle, especialidad} = req.body;
     const uid = req.params.id;
@@ -114,42 +147,54 @@ const actualizarMedico = async (req, res) => {
   
     try {
   
-      const usuarioDB = await User.findByPk(uid);
+    //   const usuarioDB = await User.findByPk(uid);
   
-      if(!usuarioDB) {
-          return res.status(404).json({
-              ok:false,
-              msg: 'No existe un usuario con ese Id'
-          });
-      }
+    //   if(!usuarioDB) {
+    //       return res.status(404).json({
+    //           ok:false,
+    //           msg: 'No existe un usuario con ese Id'
+    //       });
+    //   }
   
-         const usuarioActualizado = await User.update({
-            nombre,
-            apellidoP,
-            apellidoM,
-            email,
-            telefono,
-            domicilio: {
-                calle: calle
-            }
-        },{  
-            where: {
-                id: req.params.id
-            },
-        },{
-            include:'domicilio',
-            include: {
-              model: Specialty
-            }    
-        });
+        //  const usuarioActualizado = await User.update({
+        //     nombre,
+        //     apellidoP,
+        //     apellidoM,
+        //     email,
+        //     telefono,
+        //     domicilio: {
+        //         calle: calle
+        //     }
+        // },{  
+        //     where: {
+        //         id: req.params.id
+        //     },
+        // },{
+        //     include:'domicilio',
+        //     include: {
+        //       model: Specialty
+        //     }    
+        // });
 
           // usuarioActualizado.addSpecialties(especialidad);
           // specialty.addUser(usuarioActualizado);
+
+          
+            User.findOne({where: {id: req.params.id}, include: {model: Specialty}})
+              .then(user => {
+                  Specialty.findByPk(req.params.id)
+                    .then(specialty => {
+                      user.setSpecialties(especialidad);
+                      console.log(specialty)
+                    });
+                 user.update(req.body, {include: {model: Specialty}})
+              });
+        
   
         res.json({
             ok: true,
             msg: 'Usuario actualizado correctamente',
-            usuarioActualizado,
+            // usuarioActualizado,
 
         });
         
@@ -199,5 +244,6 @@ module.exports = {
     crearDoctor,
     getMedicos,
     actualizarMedico,
-    eliminarMedico
+    eliminarMedico,
+    getSpecialtyDoctor
 }

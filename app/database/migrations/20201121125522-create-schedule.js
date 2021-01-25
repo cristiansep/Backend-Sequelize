@@ -12,12 +12,24 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      day: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      fecha: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
       start: {
         type: Sequelize.DATE ,
         allowNull: false,
       },
       end: {
         type: Sequelize.DATE ,
+        allowNull: false,
+      },
+      slots: {
+        type: Sequelize.STRING(1234),
         allowNull: false,
       },
       idDoctor: {

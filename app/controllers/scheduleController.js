@@ -6,14 +6,17 @@ const {User} = require('../models/index');
 
 const crearHorario = async (req, res) => {
 
-  const { title, start, end } = req.body;
+  const { title, day, start, fecha ,end, slots} = req.body;
   const idDoctor = req.uid;
 
   try {
     const horarioGuardado = await Schedule.create({
       title,
+      day,
+      fecha,
       start,
       end,
+      slots,
       idDoctor,
     });
 
@@ -60,6 +63,50 @@ const getTurnos = async (req, res) => {
     }
   };
   
+
+  const getHorarioTurno = async(req,res) => {
+
+    const doctorId = req.params.id;
+    const dia = req.params.day
+    const dateOnly = req.params.fecha
+    
+
+    try {
+
+       const turno = await Schedule.findAll({
+          where: {
+            fecha: dateOnly
+          },
+        
+      include: [{
+        model: User,
+        attributes: ['id', 'nombre'],
+        where: {
+          id: doctorId
+        }
+      }],
+      attributes: ['id','slots', 'day', 'fecha', 'idDoctor', 'start', 'end']
+    }) 
+
+    res.json({
+      ok: true,
+      turno
+    });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        ok: false,
+        msg: "Error inesperado hable con el administrador",
+      });
+    }
+   
+
+
+
+
+  }
+
+
 
   const actualizarHorario = async (req, res) => {
 
@@ -156,5 +203,6 @@ module.exports = {
     crearHorario,
     getTurnos,
     actualizarHorario,
-    eliminarHorario 
+    eliminarHorario,
+    getHorarioTurno
 }
