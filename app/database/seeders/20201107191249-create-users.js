@@ -1,6 +1,14 @@
 'use strict';
 
 const faker = require('faker');
+const bcrypt = require('bcrypt');
+
+
+const password = '123'
+
+const salt = bcrypt.genSaltSync();
+const hash =  bcrypt.hashSync(password, salt);
+
 
 module.exports = {
   // se ejecuta cuando hacemos la siembra
@@ -10,7 +18,7 @@ module.exports = {
       {
         nombre: 'Test1', 
         rut: '1234567810', 
-        password: '123', 
+        password: hash, 
         email: 'test1@gmail.com',
         role: 'ADMIN_ROLE'
       },
@@ -20,14 +28,14 @@ module.exports = {
       {nombre: faker.name.findName(), rut: faker.random.word(), password: faker.random.word(), email: faker.internet.email(), role: 'USER_ROLE'},
     ];
   
-      await queryInterface.bulkInsert('users', users, {});
+      await queryInterface.bulkInsert('Users', users, {});
     
   },
 
   //esto se ejecuta cuando se desace la siembra
   down: async (queryInterface, Sequelize) => {
     
-    await queryInterface.bulkDelete('users', null, {});
+    await queryInterface.bulkDelete('Users', null, {});
     
   }
 };

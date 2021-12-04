@@ -21,12 +21,13 @@ module.exports = {
     });
 
  
-      await queryInterface.bulkInsert('addresses', addresses, {});
+      await queryInterface.bulkInsert('Addresses', addresses, {});
   },
 
   down: async (queryInterface, Sequelize) => {
   
-     await queryInterface.bulkDelete('addresses', null, {});
+     await queryInterface.bulkDelete('Addresses', null, {});
   
   }
 };
+

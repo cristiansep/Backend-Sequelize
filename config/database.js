@@ -1,19 +1,29 @@
 module.exports = {
-  username: "root",
-  password: "",
+  username: "admin",
+  password: "cristiansep",
   database: "sequelize",
-  host: "127.0.0.1",
   dialect: "mysql",
-  define: {
-    timestamps: false
-  },
+
+  // define: {
+  //   timestamps: false
+  // },
+
+  host: 'database-1.cynbjadxdhvp.us-east-2.rds.amazonaws.com',
+  port: "3306",
+  logging: console.log,
+  maxConcurrentQueries: 100,
+  // dialectOptions: {
+  //     ssl:'Amazon RDS'
+  // },
+  pool: { maxConnections: 5, maxIdleTime: 30},
+  // language: 'en',
   
-  //Configurar seeds
-  seederStorage: 'json',
-  seederStoragePath: 'sequelizeSeeds.json',
+  // //Configurar seeds
+  // seederStorage: 'json',
+  // seederStoragePath: 'sequelizeSeeds.json',
   
-  //Configurar migraciones
-  migrationStorage: 'json',
-  migrationStoragePath: 'sequelizeMigration.json',
+  // //Configurar migraciones
+  // migrationStorage: 'json',
+  // migrationStoragePath: 'sequelizeMigration.json',
   
 }

@@ -34,6 +34,7 @@ app.listen(process.env.PORT, async() => {
     try {
 
         await sequelize.authenticate();
+        // await sequelize.sync({force:false});
         console.log("La conexión se ha establecido con éxito.");
         
         console.log(`Sevidor corriendo en el puerto ${process.env.PORT}`);
